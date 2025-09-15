@@ -1,13 +1,10 @@
-package transformations
+package format
 
 import "fmt"
 
-func WeightToString(weight int) string {
-
-	fWeight := float64(weight)
-
+func WeightToString(weight float64) string {
 	//convert weight from hectograms to kilograms
-	kgWeight := fWeight / 10.00
+	kgWeight := weight / 10.00
 
 	//output string in format "[weight] kg"
 	kgWeightString := fmt.Sprintf("%.2f", kgWeight)
@@ -15,11 +12,8 @@ func WeightToString(weight int) string {
 }
 
 func HeightToString(height float64) string {
-
-	fHeight := float64(height)
-
 	//convert height from decimeters to centimeters
-	cmHeight := fHeight * 10
+	cmHeight := height * 10
 
 	//output string in format "[height] cm"
 	cmHeightString := fmt.Sprintf("%2.f", cmHeight)

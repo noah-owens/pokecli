@@ -24,8 +24,9 @@ func FetchPokemon(name string) (*Pokemon, error) {
 		return nil, fmt.Errorf("API returned status %d", resp.StatusCode)
 	}
 
-	// Decoding Error
 	var p Pokemon
+
+	// Decoding Error
 	if err := json.NewDecoder(resp.Body).Decode(&p); err != nil {
 		return nil, fmt.Errorf("failed to decode: %w", err)
 	}

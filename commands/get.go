@@ -21,5 +21,8 @@ func Get(args []string) {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Name: %s\nHeight: %d\nWeight: %d\n", data.Name, data.Height, data.Weight)
+	height := format.HeightToString(float64(data.Height))
+	weight := format.WeightToString(float64(data.Weight))
+
+	fmt.Printf("Name: %s\nHeight: %s\nWeight: %s\n", data.Name, height, weight)
 }
