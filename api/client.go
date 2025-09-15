@@ -6,19 +6,13 @@ import (
 	"net/http"
 )
 
-type Pokemon struct {
-	Name   string `json:"name"`
-	Height int    `json:"height"`
-	Weight int    `json:"weight"`
-}
-
 func FetchPokemon(name string) (*Pokemon, error) {
 	url := fmt.Sprintf("https://pokeapi.co/api/v2/pokemon/%s", name)
 	resp, err := http.Get(url)
 
 	// Failure to fetch (likely incorrect argument)
 	if err != nil {
-		// to be replaced w/ DID YOU MEAN: get [similar pokemon names]
+		// DID YOU MEAN: get [similar pokemon names]
 		return nil, fmt.Errorf("failed to fetch %w", err)
 	}
 
@@ -37,5 +31,4 @@ func FetchPokemon(name string) (*Pokemon, error) {
 	}
 
 	return &p, nil
-
 }
