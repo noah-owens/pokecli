@@ -16,9 +16,23 @@ func main() {
 
 	switch os.Args[1] {
 	case "get":
-		commands.Get(os.Args[2:])
+		switch os.Args[2] {
+		case "pokemon":
+			commands.GetPokemon(os.Args[3:])
+		default:
+			argsOutput := ""
+			for _, arg := range os.Args[2:] {
+				argsOutput += arg + " "
+			}
+			fmt.Println(format.Red + "Unknown get argument: " + argsOutput + format.Reset)
+			os.Exit(1)
+		}
 	default:
-		fmt.Println(format.Red + "Unknown command: " + os.Args[1] + format.Reset)
+		argsOutput := ""
+		for _, arg := range os.Args[1:] {
+			argsOutput += arg + " "
+		}
+		fmt.Println(format.Red + "Unknown command: " + argsOutput + format.Reset)
 		os.Exit(1)
 	}
 }

@@ -8,7 +8,7 @@ import (
 	"pokecli/format"
 )
 
-func Get(args []string) {
+func GetPokemon(args []string) {
 	if len(args) != 1 {
 		fmt.Println(format.Red + "Usage: pokecli get [pokemon]" + format.Reset)
 		os.Exit(1)
