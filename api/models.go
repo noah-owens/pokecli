@@ -1,5 +1,16 @@
 package api
 
+type PokemonSummary struct {
+	Name      string
+	ID        int
+	Height    int
+	Weight    int
+	Types     []string
+	Abilities []string
+	Stats     map[string]int
+	Species   string
+}
+
 type Pokemon struct {
 	Name   string `json:"name"`
 	ID     int    `json:"id"`
@@ -89,4 +100,32 @@ type Pokemon struct {
 			URL  string `json:"url"`
 		} `json:"type"`
 	} `json:"types"`
+}
+
+func PokemonToSummary(p *Pokemon) PokemonSummary {
+	stats := make(map[string]int)
+	for _, s := range p.Stats {
+		stats[s.Stat.Name] = s.BaseStat
+	}
+
+	var types []string
+	for _, t := range p.Types {
+		types = append(types, t.Type.Name)
+	}
+
+	var abilities []string
+	for _, a := range p.Abilities {
+		abilities = append(abilities, a.Ability.Name)
+	}
+
+	return PokemonSummary{
+		Name:      p.Name,
+		ID:        p.ID,
+		Height:    p.Height,
+		Weight:    p.Weight,
+		Types:     types,
+		Abilities: abilities,
+		Stats:     stats,
+		Species:   p.Species.Name,
+	}
 }

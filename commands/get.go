@@ -15,14 +15,14 @@ func GetPokemon(args []string) {
 	}
 
 	name := args[0]
+
 	data, err := api.FetchPokemon(name)
 	if err != nil {
-		fmt.Printf("Error: %s", err)
+		fmt.Println(format.Red+"Error fetching data: %s"+format.Reset, err)
 		os.Exit(1)
 	}
 
-	height := format.HeightToString(float64(data.Height))
-	weight := format.WeightToString(float64(data.Weight))
+	summary := api.PokemonToSummary(data)
 
-	fmt.Printf("Name: %s\nHeight: %s\nWeight: %s\n", data.Name, height, weight)
+	format.PrintSummary(summary)
 }
