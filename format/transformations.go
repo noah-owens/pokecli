@@ -2,6 +2,7 @@ package format
 
 import (
 	"fmt"
+	"strings"
 )
 
 func WeightToString(weight int) string {
@@ -24,4 +25,17 @@ func HeightToString(height int) string {
 	//output string in format "[height] cm"
 	cmHeightString := fmt.Sprintf("%2.f", cmHeight)
 	return cmHeightString + " cm"
+}
+
+func StatBar(value int) string {
+	barLength := value / 10
+	return "[" + strings.Repeat("█", barLength) + strings.Repeat(" ", 10-barLength) + "]"
+}
+
+func TypesDisplay(types []string) string {
+	return strings.Join(types, " | ")
+}
+
+func AbilitiesDisplay(abilities []string) string {
+	return strings.Join(abilities, ", ")
 }

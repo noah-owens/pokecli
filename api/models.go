@@ -9,6 +9,8 @@ type PokemonSummary struct {
 	Abilities []string
 	Stats     map[string]int
 	Species   string
+	Moves     []string
+	HeldItems []string
 }
 
 type Pokemon struct {
@@ -118,6 +120,16 @@ func PokemonToSummary(p *Pokemon) PokemonSummary {
 		abilities = append(abilities, a.Ability.Name)
 	}
 
+	var moves []string
+	for _, m := range p.Moves {
+		moves = append(moves, m.Move.Name)
+	}
+
+	var heldItems []string
+	for _, item := range p.HeldItems {
+		heldItems = append(heldItems, item.Item.Name)
+	}
+
 	return PokemonSummary{
 		Name:      p.Name,
 		ID:        p.ID,
@@ -127,5 +139,7 @@ func PokemonToSummary(p *Pokemon) PokemonSummary {
 		Abilities: abilities,
 		Stats:     stats,
 		Species:   p.Species.Name,
+		Moves:     moves,
+		HeldItems: heldItems,
 	}
 }
