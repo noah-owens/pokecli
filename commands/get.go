@@ -11,18 +11,24 @@ import (
 
 func GetPokemon(args []string) {
 	if len(args) < 1 {
-		fmt.Println(format.Red + "Usage: pokecli get pokemon [name] [--detailed]" + format.Reset)
+		fmt.Println(format.Red + "Usage: pokecli get pokemon [name] [--detailed] [--moves]" + format.Reset)
 		os.Exit(1)
 	}
 
 	name := args[0]
 	detailed := false
+	allMoves := false
 
 	detailedFlags := []string{"--detailed", "-d"}
+	movesFlags := []string{"--moves", "-m"}
 
 	for _, arg := range args[1:] {
 		if slices.Contains(detailedFlags, arg) {
 			detailed = true
+		}
+
+		if slices.Contains(movesFlags, arg) {
+			allMoves = true
 		}
 	}
 
@@ -35,8 +41,13 @@ func GetPokemon(args []string) {
 	summary := api.PokemonToSummary(data)
 
 	if detailed {
-		format.PrintDetailedPokemonSummary(summary)
+		format.PrintDetailedPokemonSummary(summary, allMoves)
 	} else {
 		format.PrintPokemonSummary(summary)
+
+		if allMoves {
+			fmt.Println(format.Yellow + "Warning: [--moves] only applies to detailed summary")
+			fmt.Println("Usage: pokecli get pokemon --detailed --moves" + format.Reset)
+		}
 	}
 }

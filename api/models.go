@@ -105,11 +105,6 @@ type Pokemon struct {
 }
 
 func PokemonToSummary(p *Pokemon) PokemonSummary {
-	stats := make(map[string]int)
-	for _, s := range p.Stats {
-		stats[s.Stat.Name] = s.BaseStat
-	}
-
 	var types []string
 	for _, t := range p.Types {
 		types = append(types, t.Type.Name)
@@ -118,6 +113,11 @@ func PokemonToSummary(p *Pokemon) PokemonSummary {
 	var abilities []string
 	for _, a := range p.Abilities {
 		abilities = append(abilities, a.Ability.Name)
+	}
+
+	stats := make(map[string]int)
+	for _, s := range p.Stats {
+		stats[s.Stat.Name] = s.BaseStat
 	}
 
 	var moves []string
