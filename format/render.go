@@ -17,14 +17,15 @@ var StatOrder = []string{
 	"speed",
 }
 
-// PrintPokemonSummary renders a concise view of Pokémon attributes: name, ID, species, height, weight, and types.
+// PrintPokemonSummary renders a concise view of Pokémon attributes: name, ID, height, weight, types, and abilities
 func PrintPokemonSummary(summary api.PokemonSummary) {
 	fmt.Printf(Bold+"%s (ID: %d)\n"+Reset, summary.Name, summary.ID)
 	fmt.Println(Gray + strings.Repeat("─", 30) + Reset)
-	fmt.Printf("Species: %s\n", summary.Species)
+	fmt.Printf("Types: %s\n", PipeDelimited(summary.Types))
+	fmt.Printf("Abilities: %s\n", CommaDelimited(summary.Abilities))
 	fmt.Printf("Height: %s\n", HeightToString(summary.Height))
 	fmt.Printf("Weight: %s\n", WeightToString(summary.Weight))
-	fmt.Printf("Types: %s\n", PipeDelimited(summary.Types))
+
 }
 
 // PrintDetailedPokemonSummary renders a detailed view including stats, held items, and moves.
