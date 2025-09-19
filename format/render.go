@@ -6,6 +6,15 @@ import (
 	"strings"
 )
 
+var StatOrder = []string{
+	"hp",
+	"attack",
+	"defense",
+	"special-attack",
+	"special-defense",
+	"speed",
+}
+
 func PrintPokemonSummary(summary api.PokemonSummary) {
 	fmt.Printf("%s (ID: %d)\n", summary.Name, summary.ID)
 	fmt.Println("==============================")
@@ -25,7 +34,8 @@ func PrintDetailedPokemonSummary(summary api.PokemonSummary, fullMoveset bool) {
 	fmt.Printf("Abilities: %s\n", AbilitiesDisplay(summary.Abilities))
 
 	fmt.Println("\nStats:")
-	for stat, value := range summary.Stats {
+	for _, stat := range StatOrder {
+		value := summary.Stats[stat]
 		bar := StatBar(value)
 		fmt.Printf("  %-15s %3d %s\n", stat, value, bar)
 	}

@@ -26,8 +26,12 @@ func HeightToString(height int) string {
 }
 
 func StatBar(value int) string {
-	barLength := value / 10
-	return "[" + strings.Repeat("█", barLength) + strings.Repeat(" ", 10-barLength) + "]"
+	const maxStatValue = 255
+	const maxBarLength = 25
+
+	normalizedBarLength := int(float64(value) / float64(maxStatValue) * float64(maxBarLength))
+
+	return "[" + strings.Repeat("█", normalizedBarLength) + strings.Repeat(" ", maxBarLength-normalizedBarLength) + "]"
 }
 
 func TypesDisplay(types []string) string {
