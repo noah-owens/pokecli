@@ -16,8 +16,8 @@ var StatOrder = []string{
 }
 
 func PrintPokemonSummary(summary api.PokemonSummary) {
-	fmt.Printf("%s (ID: %d)\n", summary.Name, summary.ID)
-	fmt.Println("==============================")
+	fmt.Printf(Bold+"%s (ID: %d)\n"+Reset, summary.Name, summary.ID)
+	fmt.Println(Gray + strings.Repeat("─", 30) + Reset)
 	fmt.Printf("Species: %s\n", summary.Species)
 	fmt.Printf("Height: %s\n", HeightToString(summary.Height))
 	fmt.Printf("Weight: %s\n", WeightToString(summary.Weight))
