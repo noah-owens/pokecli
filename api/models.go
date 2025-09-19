@@ -1,5 +1,7 @@
+// Package api defines data models for PokeAPI responses and display-friendly output
 package api
 
+// PokemonSummary contains display-ready fields for rendering a concise Pokémon summary in CLI output.
 type PokemonSummary struct {
 	Name      string
 	ID        int
@@ -13,6 +15,8 @@ type PokemonSummary struct {
 	HeldItems []string
 }
 
+// Pokemon maps the JSON structure returned by https://pokeapi.co/api/v2/pokemon/<name>.
+// Pokemon includes all fields necessary for decoding API response.
 type Pokemon struct {
 	Name   string `json:"name"`
 	ID     int    `json:"id"`
@@ -102,44 +106,4 @@ type Pokemon struct {
 			URL  string `json:"url"`
 		} `json:"type"`
 	} `json:"types"`
-}
-
-func PokemonToSummary(p *Pokemon) PokemonSummary {
-	var types []string
-	for _, t := range p.Types {
-		types = append(types, t.Type.Name)
-	}
-
-	var abilities []string
-	for _, a := range p.Abilities {
-		abilities = append(abilities, a.Ability.Name)
-	}
-
-	stats := make(map[string]int)
-	for _, s := range p.Stats {
-		stats[s.Stat.Name] = s.BaseStat
-	}
-
-	var moves []string
-	for _, m := range p.Moves {
-		moves = append(moves, m.Move.Name)
-	}
-
-	var heldItems []string
-	for _, item := range p.HeldItems {
-		heldItems = append(heldItems, item.Item.Name)
-	}
-
-	return PokemonSummary{
-		Name:      p.Name,
-		ID:        p.ID,
-		Height:    p.Height,
-		Weight:    p.Weight,
-		Types:     types,
-		Abilities: abilities,
-		Stats:     stats,
-		Species:   p.Species.Name,
-		Moves:     moves,
-		HeldItems: heldItems,
-	}
 }
