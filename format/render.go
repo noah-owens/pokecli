@@ -1,3 +1,4 @@
+// Package format provides CLI rendering functions, text styling utilities, and data transformation helpers for display logic.
 package format
 
 import (
@@ -6,6 +7,7 @@ import (
 	"strings"
 )
 
+// StatOrder defines the sequence stat values should always be sorted in.
 var StatOrder = []string{
 	"hp",
 	"attack",
@@ -15,31 +17,35 @@ var StatOrder = []string{
 	"speed",
 }
 
+// PrintPokemonSummary renders a concise view of Pokémon attributes: name, ID, species, height, weight, and types.
 func PrintPokemonSummary(summary api.PokemonSummary) {
 	fmt.Printf(Bold+"%s (ID: %d)\n"+Reset, summary.Name, summary.ID)
 	fmt.Println(Gray + strings.Repeat("─", 30) + Reset)
 	fmt.Printf("Species: %s\n", summary.Species)
 	fmt.Printf("Height: %s\n", HeightToString(summary.Height))
 	fmt.Printf("Weight: %s\n", WeightToString(summary.Weight))
-	fmt.Printf("Types: %s\n", TypesDisplay(summary.Types))
+	fmt.Printf("Types: %s\n", PipeDelimited(summary.Types))
 }
 
+// PrintDetailedPokemonSummary renders a detailed view including stats, held items, and moves.
+// If fullMoveset is true, all known moves are displayed, otherwise the list is truncated to five.
 func PrintDetailedPokemonSummary(summary api.PokemonSummary, fullMoveset bool) {
-	fmt.Printf(Bold+"%s (ID: %d)\n"+Reset, summary.Name, summary.ID)
-	fmt.Println(Gray + strings.Repeat("─", 30) + Reset)
-	fmt.Printf("Species:   %s\n", summary.Species)
-	fmt.Printf("Height:    %s\n", HeightToString(summary.Height))
-	fmt.Printf("Weight:    %s\n", WeightToString(summary.Weight))
-	fmt.Printf("Types:     %s\n", TypesDisplay(summary.Types))
-	fmt.Printf("Abilities: %s\n", AbilitiesDisplay(summary.Abilities))
+	PrintPokemonSummary(summary)
 
+	// Stats (Bar Visualizer)
 	fmt.Println("\nStats:")
 	for _, stat := range StatOrder {
 		value := summary.Stats[stat]
-		bar := StatBar(value)
-		fmt.Printf("  %-15s %3d %s\n", stat, value, bar)
+		bar, err := StatBar(value)
+
+		if err == nil {
+			fmt.Printf("  %-15s %3d %s\n", stat, value, bar)
+		} else {
+			fmt.Printf("Error: %v", err)
+		}
 	}
 
+	// Held Items (Bulleted List) if applicable
 	if len(summary.HeldItems) > 0 {
 		fmt.Println("\nHeld Items:")
 		for _, item := range summary.HeldItems {
@@ -47,9 +53,10 @@ func PrintDetailedPokemonSummary(summary api.PokemonSummary, fullMoveset bool) {
 		}
 	}
 
+	// Moves (Truncated Bulleted List or Full Comma Separated List)
 	fmt.Println("\nMoves:")
 	if fullMoveset {
-		fmt.Println(MovesDisplay(summary.Moves))
+		fmt.Println(CommaDelimited(summary.Moves))
 	} else {
 		if len(summary.Moves) > 0 {
 			for i, move := range summary.Moves {
