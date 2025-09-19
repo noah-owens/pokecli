@@ -1,3 +1,5 @@
+// Package main is the entry point to pokecli.
+// It parses CLI arguments and delegates routing to the controller package.
 package main
 
 import (
