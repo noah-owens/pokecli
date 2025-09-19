@@ -1,5 +1,7 @@
+// Package format provides CLI rendering functions, text styling utilities, and data transformation helpers for display logic.
 package format
 
+// ANSI escape codes for CLI text styling
 const (
 	Red     = "\033[31m"
 	Green   = "\033[32m"
